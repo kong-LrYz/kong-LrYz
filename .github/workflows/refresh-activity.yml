@@ -1,26 +1,86 @@
-name: Refresh profile activity
+name: Refresh profile visuals
 
 on:
   schedule:
     - cron: "23 1 * * *"
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 concurrency:
   group: profile-activity
   cancel-in-progress: false
 
 jobs:
-  refresh:
+  generate:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Generate the contribution snake
+        uses: Platane/snk/svg-only@d8f6715049803e982ee5ff501b6b9b7d5deeb09b # v3.5.0
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            rendered/snake-light.svg?palette=github-light&color_snake=%23017782
+            rendered/snake-dark.svg?palette=github-dark&color_snake=%2365e5d1
+
+      - name: Generate the contribution effects
+        uses: Sur1ive/contribution-fx@0c7303e3949901701337755cacef30ba2674130b # v1
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            rendered/circuit-light.svg?theme=circuit&palette=ocean&speed=1.2
+            rendered/circuit-dark.svg?theme=circuit&palette=ocean&mode=dark&speed=1.2
+            rendered/constellation-light.svg?theme=constellation&palette=purple&speed=1.15
+            rendered/constellation-dark.svg?theme=constellation&palette=purple&mode=dark&speed=1.15
+            rendered/fireworks-light.svg?theme=fireworks&palette=sunset&speed=1.05
+            rendered/fireworks-dark.svg?theme=fireworks&palette=sunset&mode=dark&speed=1.05
+            rendered/ripple-light.svg?theme=ripple&palette=ocean&speed=1.1
+            rendered/ripple-dark.svg?theme=ripple&palette=ocean&mode=dark&speed=1.1
+
+      - name: Fetch animated summary cards
+        env:
+          PROFILE_OWNER: ${{ github.repository_owner }}
+        shell: bash
+        run: |
+          for mode in light dark; do
+            theme=default
+            if [[ "$mode" == dark ]]; then theme=github_dark; fi
+            api=https://github-profile-summary-cards.vercel.app/api/cards
+            common="username=$PROFILE_OWNER&theme=$theme&hide_logo=true"
+            curl --fail --silent --show-error --location --retry 2 --max-time 25 \
+              "$api/repos-per-language?$common&animation=load&duration=2.8" -o "rendered/languages-$mode.svg"
+            curl --fail --silent --show-error --location --retry 2 --max-time 25 \
+              "$api/productive-time?$common&timeZone=Asia%2FHong_Kong&animation=draw&duration=2.8" -o "rendered/time-$mode.svg"
+            grep -q '@keyframes' "rendered/languages-$mode.svg"
+            grep -q '@keyframes' "rendered/time-$mode.svg"
+          done
+
+      - name: Store the generated SVGs
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: profile-visuals
+          path: rendered/*.svg
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: generate
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.repository.default_branch }}
 
-      - name: Read public pushes and update the profile
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: profile-visuals
+          path: ${{ runner.temp }}/profile-visuals
+
+      - name: Update the public repository list and publish the SVGs
         env:
           GH_TOKEN: ${{ github.token }}
           PROFILE_OWNER: ${{ github.repository_owner }}
@@ -29,23 +89,20 @@ jobs:
           gh api --paginate --slurp "users/$PROFILE_OWNER/repos?type=owner&per_page=100" \
             | python3 .github/refresh_activity.py "$PROFILE_OWNER"
 
-      - name: Render the animation from GitHub's public contribution calendar
-        env:
-          PROFILE_OWNER: ${{ github.repository_owner }}
-        run: |
-          python3 -m venv "$RUNNER_TEMP/reactor"
-          "$RUNNER_TEMP/reactor/bin/python" -m pip install --disable-pip-version-check 'Pillow==13.0.0'
-          "$RUNNER_TEMP/reactor/bin/python" .github/render_reactor.py "$PROFILE_OWNER" assets
+          mkdir -p assets/visuals
+          for widget in snake circuit constellation fireworks ripple languages time; do
+            for mode in light dark; do
+              asset="$widget-$mode.svg"
+              cp "$RUNNER_TEMP/profile-visuals/$asset" "assets/visuals/$asset"
+            done
+          done
 
-      - name: Publish when the activity changes
-        shell: bash
-        run: |
-          paths=(README.md assets/reactor.webp assets/reactor-motion.webp)
-          if git diff --quiet -- "${paths[@]}"; then
-            echo "Profile activity is already up to date."
+          git add -- README.md assets/visuals
+          if git diff --cached --quiet; then
+            echo "Profile visuals and activity are already up to date."
             exit 0
           fi
           git -c user.name="github-actions[bot]" \
               -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-              commit -m "Refresh public contribution animation and activity" -- "${paths[@]}"
+              commit -m "Refresh profile visuals and activity"
           git push origin HEAD
