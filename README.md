@@ -7,15 +7,15 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/contribution-streak-dark.svg">
-    <img src="assets/visuals/contribution-streak-light.svg" width="720" alt="GitHub 总贡献数、当前连续贡献和最长连续贡献">
+    <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/contribution-streak-dark-a7011104efa1a195.svg">
+    <img src="assets/visuals/contribution-streak-light-f30107774a8a1d38.svg" width="720" alt="GitHub 总贡献数、当前连续贡献和最长连续贡献">
   </picture>
 </p>
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/github-stats-dark.svg">
-    <img src="assets/visuals/github-stats-light.svg" width="720" alt="GitHub 统计与评级：获得的星标、公开提交、拉取请求、议题和参与的仓库">
+    <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/github-stats-dark-5436b4f81c2d6050.svg">
+    <img src="assets/visuals/github-stats-light-c5291ab30f6df319.svg" width="720" alt="GitHub 统计与评级：获得的星标、公开提交、拉取请求、议题和参与的仓库">
   </picture>
 </p>
 
