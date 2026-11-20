@@ -29,14 +29,23 @@ jobs:
           gh api --paginate --slurp "users/$PROFILE_OWNER/repos?type=owner&per_page=100" \
             | python3 .github/refresh_activity.py "$PROFILE_OWNER"
 
+      - name: Render the animation from GitHub's public contribution calendar
+        env:
+          PROFILE_OWNER: ${{ github.repository_owner }}
+        run: |
+          python3 -m venv "$RUNNER_TEMP/reactor"
+          "$RUNNER_TEMP/reactor/bin/python" -m pip install --disable-pip-version-check 'Pillow==13.0.0'
+          "$RUNNER_TEMP/reactor/bin/python" .github/render_reactor.py "$PROFILE_OWNER" assets
+
       - name: Publish when the activity changes
         shell: bash
         run: |
-          if git diff --quiet -- README.md; then
+          paths=(README.md assets/reactor.webp assets/reactor-motion.webp)
+          if git diff --quiet -- "${paths[@]}"; then
             echo "Profile activity is already up to date."
             exit 0
           fi
           git -c user.name="github-actions[bot]" \
               -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-              commit -m "Refresh public repository activity" -- README.md
+              commit -m "Refresh public contribution animation and activity" -- "${paths[@]}"
           git push origin HEAD
