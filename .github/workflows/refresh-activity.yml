@@ -1,4 +1,4 @@
-name: Refresh contribution snake
+name: Refresh GitHub cards and contribution snake
 
 on:
   schedule:
@@ -29,6 +29,44 @@ jobs:
         run: |
           sed -i 's|</style>|@media (prefers-reduced-motion:reduce){*{animation:none!important}}</style>|' rendered/snake-{light,dark}.svg
 
+      - name: Generate the contribution streak in light mode
+        uses: DenverCoder1/github-readme-streak-stats@125aaaf200620410446ebfa51897fca3607e04fd # v1
+        with:
+          options: user=${{ github.repository_owner }}&theme=default&timezone=Asia%2FHong_Kong&hide_border=true&background=00000000&ring=1a7f37&fire=0969da&dates=1a7f37&stroke=2da44e
+          path: rendered/contribution-streak-light.svg
+
+      - name: Generate the contribution streak in dark mode
+        uses: DenverCoder1/github-readme-streak-stats@125aaaf200620410446ebfa51897fca3607e04fd # v1
+        with:
+          options: user=${{ github.repository_owner }}&theme=github-dark&timezone=Asia%2FHong_Kong&hide_border=true&background=00000000&ring=2fcb4e&fire=1f6feb&dates=39d353&stroke=238636
+          path: rendered/contribution-streak-dark.svg
+
+      - name: Generate GitHub stats in light mode
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
+        with:
+          card: stats
+          options: show_icons=true&include_all_commits=true&hide_border=true&theme=default&bg_color=00000000
+          path: rendered/github-stats-light.svg
+          core_version: "2.3.1"
+          fail_on_error: "true"
+
+      - name: Generate GitHub stats in dark mode
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
+        with:
+          card: stats
+          options: show_icons=true&include_all_commits=true&hide_border=true&theme=github_dark&bg_color=00000000
+          path: rendered/github-stats-dark.svg
+          core_version: "2.3.1"
+          fail_on_error: "true"
+
+      - name: Check both cards contain the expected data sections
+        shell: bash
+        run: |
+          for mode in light dark; do
+            grep -q 'Longest Streak' "rendered/contribution-streak-$mode.svg"
+            grep -q 'Total Commits' "rendered/github-stats-$mode.svg"
+          done
+
       - name: Store the generated SVGs
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
@@ -53,19 +91,22 @@ jobs:
           name: profile-visuals
           path: ${{ runner.temp }}/profile-visuals
 
-      - name: Publish the contribution snake
+      - name: Publish the generated profile images
         shell: bash
         run: |
-          for mode in light dark; do
-            cp "$RUNNER_TEMP/profile-visuals/snake-$mode.svg" "assets/visuals/snake-$mode.svg"
+          for image in snake contribution-streak github-stats; do
+            for mode in light dark; do
+              asset="$image-$mode.svg"
+              cp "$RUNNER_TEMP/profile-visuals/$asset" "assets/visuals/$asset"
+              git add -- "assets/visuals/$asset"
+            done
           done
 
-          git add -- assets/visuals/snake-{light,dark}.svg
           if git diff --cached --quiet; then
-            echo "The contribution snake is already up to date."
+            echo "The profile images are already up to date."
             exit 0
           fi
           git -c user.name="github-actions[bot]" \
               -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-              commit -m "Refresh contribution snake"
+              commit -m "Refresh GitHub cards and contribution snake"
           git push origin HEAD
