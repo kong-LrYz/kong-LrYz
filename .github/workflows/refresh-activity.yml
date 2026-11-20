@@ -45,13 +45,17 @@ jobs:
         run: |
           for mode in light dark; do
             theme=default
-            if [[ "$mode" == dark ]]; then theme=github_dark; fi
+            colors="title_color=15596b&text_color=365062&chart_color=157f78&border_color=cbdbdf&bg_color=f5fafb"
+            if [[ "$mode" == dark ]]; then
+              theme=github_dark
+              colors="title_color=85ddeb&text_color=b3c2d2&chart_color=59d5bf&border_color=314554&bg_color=101a22"
+            fi
             api=https://github-profile-summary-cards.vercel.app/api/cards
-            common="username=$PROFILE_OWNER&theme=$theme&hide_logo=true"
+            common="username=$PROFILE_OWNER&theme=$theme&hide_logo=true&$colors"
             curl --fail --silent --show-error --location --retry 2 --max-time 25 \
               "$api/repos-per-language?$common&animation=load&duration=2.8" -o "rendered/languages-$mode.svg"
             curl --fail --silent --show-error --location --retry 2 --max-time 25 \
-              "$api/productive-time?$common&timeZone=Asia%2FHong_Kong&animation=draw&duration=2.8" -o "rendered/time-$mode.svg"
+              "$api/productive-time?$common&utcOffset=8&animation=draw&duration=2.8" -o "rendered/time-$mode.svg"
             grep -q '@keyframes' "rendered/languages-$mode.svg"
             grep -q '@keyframes' "rendered/time-$mode.svg"
           done
