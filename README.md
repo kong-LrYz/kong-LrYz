@@ -18,12 +18,12 @@
 
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/time-dark.svg">
-  <img src="assets/visuals/time-light.svg" width="340" alt="按香港时间统计的提交时段">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/time-dark.svg?style=2">
+  <img src="assets/visuals/time-light.svg?style=2" width="340" alt="按香港时间统计的提交时段">
 </picture>
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/languages-dark.svg">
-  <img src="assets/visuals/languages-light.svg" width="340" alt="公开仓库的主要语言">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/languages-dark.svg?style=2">
+  <img src="assets/visuals/languages-light.svg?style=2" width="340" alt="公开仓库的主要语言">
 </picture>
 </p>
 
