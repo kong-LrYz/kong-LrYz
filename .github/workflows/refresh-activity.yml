@@ -53,11 +53,11 @@ jobs:
             api=https://github-profile-summary-cards.vercel.app/api/cards
             common="username=$PROFILE_OWNER&theme=$theme&hide_logo=true&$colors"
             curl --fail --silent --show-error --location --retry 2 --max-time 25 \
-              "$api/repos-per-language?$common&animation=load&duration=2.8" -o "rendered/languages-$mode.svg"
+              "$api/repos-per-language?$common&animation=load&duration=2.8" -o "rendered/repo-languages-$mode.svg"
             curl --fail --silent --show-error --location --retry 2 --max-time 25 \
-              "$api/productive-time?$common&utcOffset=8&animation=draw&duration=2.8" -o "rendered/time-$mode.svg"
-            grep -q '@keyframes' "rendered/languages-$mode.svg"
-            grep -q '@keyframes' "rendered/time-$mode.svg"
+              "$api/productive-time?$common&utcOffset=8&animation=draw&duration=2.8" -o "rendered/commit-clock-$mode.svg"
+            grep -q '@keyframes' "rendered/repo-languages-$mode.svg"
+            grep -q '@keyframes' "rendered/commit-clock-$mode.svg"
           done
 
       - name: Store the generated SVGs
@@ -94,7 +94,7 @@ jobs:
             | python3 .github/refresh_activity.py "$PROFILE_OWNER"
 
           mkdir -p assets/visuals
-          for widget in snake circuit constellation fireworks ripple languages time; do
+          for widget in snake circuit constellation fireworks ripple repo-languages commit-clock; do
             for mode in light dark; do
               asset="$widget-$mode.svg"
               cp "$RUNNER_TEMP/profile-visuals/$asset" "assets/visuals/$asset"
