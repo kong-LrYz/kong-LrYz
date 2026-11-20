@@ -6,7 +6,28 @@
 <p align="center"><a href="https://github.com/kong-LrYz?tab=repositories">全部仓库</a> · <a href="https://github.com/kong-LrYz?tab=stars">星标</a></p>
 
 <p align="center">
-  <img src="assets/visuals/tool-marquee.svg" width="448" alt="C、C++、JavaScript、Node.js、汇编、Git 和 GitHub Actions">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/contribution-streak-dark.svg">
+    <img src="assets/visuals/contribution-streak-light.svg" width="720" alt="GitHub 总贡献数、当前连续贡献和最长连续贡献">
+  </picture>
+</p>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/github-stats-dark.svg">
+    <img src="assets/visuals/github-stats-light.svg" width="720" alt="GitHub 统计与评级：获得的星标、提交、拉取请求、议题和参与的仓库">
+  </picture>
+</p>
+
+<p align="center">
+  <img src="assets/visuals/animated-tool-row.svg" width="560" alt="滚动技术图标：C、C++、Python、JavaScript、Node.js、Rust、Go、汇编、CMake、Git 和 GitHub Actions">
+</p>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/skill-grid-dark.svg">
+    <img src="assets/visuals/skill-grid-light.svg" width="510" alt="双排技术图标：C、C++、Python、JavaScript、Node.js、HTML、CSS、Rust、Go、CMake、Git、GitHub、GitHub Actions、Bash、Linux 和 Markdown">
+  </picture>
 </p>
 
 <img src="assets/visuals/pulse-divider.svg" width="100%" alt="">
@@ -23,4 +44,4 @@
   </picture>
 </p>
 
-<sub>动效来自 <a href="https://github.com/jihoo12/github-readme-svg">GitHub Readme SVG</a>、<a href="https://github.com/gian-gg/icon-marquee">Icon Marquee</a>、<a href="https://github.com/saroo98/profile-signal-kit">Profile Signal Kit</a>、<a href="https://github.com/Platane/snk">Platane/snk</a> 和 <a href="https://github.com/huytieu/ascii-og">ascii-og</a>。</sub>
+<sub>组件来自 <a href="https://github.com/jihoo12/github-readme-svg">GitHub Readme SVG</a>、<a href="https://github.com/DenverCoder1/github-readme-streak-stats">Streak Stats</a>、<a href="https://github.com/stats-organization/github-readme-stats">GitHub Readme Stats</a>、<a href="https://github.com/gian-gg/icon-marquee">Icon Marquee</a>、<a href="https://github.com/tandpfun/skill-icons">Skill Icons</a>、<a href="https://github.com/saroo98/profile-signal-kit">Profile Signal Kit</a>、<a href="https://github.com/Platane/snk">Platane/snk</a> 和 <a href="https://github.com/huytieu/ascii-og">ascii-og</a>。</sub>
