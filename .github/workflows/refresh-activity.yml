@@ -1,4 +1,4 @@
-name: Refresh profile visuals
+name: Refresh contribution snake
 
 on:
   schedule:
@@ -15,9 +15,6 @@ jobs:
     timeout-minutes: 10
     permissions:
       contents: read
-    env:
-      LIGHT_CARD: bg_color=f5fafb&title_color=15596b&text_color=365062&border_color=cbdbdf&icon_color=157f78
-      DARK_CARD: bg_color=101a22&title_color=85ddeb&text_color=b3c2d2&border_color=314554&icon_color=59d5bf
     steps:
       - name: Generate the contribution snake
         uses: Platane/snk/svg-only@d8f6715049803e982ee5ff501b6b9b7d5deeb09b # v3.5.0
@@ -31,42 +28,6 @@ jobs:
         shell: bash
         run: |
           sed -i 's|</style>|@media (prefers-reduced-motion:reduce){*{animation:none!important}}</style>|' rendered/snake-{light,dark}.svg
-
-      - name: Generate the BOSS assistant card in light mode
-        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
-        with:
-          card: pin
-          options: repo=boss-agent-assistant&description_lines_count=2&${{ env.LIGHT_CARD }}
-          path: rendered/boss-card-light.svg
-          core_version: "2.3.1"
-          fail_on_error: "true"
-
-      - name: Generate the BOSS assistant card in dark mode
-        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
-        with:
-          card: pin
-          options: repo=boss-agent-assistant&description_lines_count=2&${{ env.DARK_CARD }}
-          path: rendered/boss-card-dark.svg
-          core_version: "2.3.1"
-          fail_on_error: "true"
-
-      - name: Generate the Tree-sitter card in light mode
-        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
-        with:
-          card: pin
-          options: repo=tree-sitter-isabelle&description_lines_count=2&${{ env.LIGHT_CARD }}
-          path: rendered/tree-sitter-card-light.svg
-          core_version: "2.3.1"
-          fail_on_error: "true"
-
-      - name: Generate the Tree-sitter card in dark mode
-        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
-        with:
-          card: pin
-          options: repo=tree-sitter-isabelle&description_lines_count=2&${{ env.DARK_CARD }}
-          path: rendered/tree-sitter-card-dark.svg
-          core_version: "2.3.1"
-          fail_on_error: "true"
 
       - name: Store the generated SVGs
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
@@ -92,28 +53,19 @@ jobs:
           name: profile-visuals
           path: ${{ runner.temp }}/profile-visuals
 
-      - name: Update the public repository list and publish the SVGs
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PROFILE_OWNER: ${{ github.repository_owner }}
+      - name: Publish the contribution snake
         shell: bash
         run: |
-          gh api --paginate --slurp "users/$PROFILE_OWNER/repos?type=owner&per_page=100" \
-            | python3 .github/refresh_activity.py "$PROFILE_OWNER"
-
-          for widget in snake boss-card tree-sitter-card; do
-            for mode in light dark; do
-              asset="$widget-$mode.svg"
-              cp "$RUNNER_TEMP/profile-visuals/$asset" "assets/visuals/$asset"
-            done
+          for mode in light dark; do
+            cp "$RUNNER_TEMP/profile-visuals/snake-$mode.svg" "assets/visuals/snake-$mode.svg"
           done
 
-          git add -- README.md assets/visuals
+          git add -- assets/visuals/snake-{light,dark}.svg
           if git diff --cached --quiet; then
-            echo "Profile visuals and activity are already up to date."
+            echo "The contribution snake is already up to date."
             exit 0
           fi
           git -c user.name="github-actions[bot]" \
               -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-              commit -m "Refresh profile visuals and activity"
+              commit -m "Refresh contribution snake"
           git push origin HEAD

@@ -1,47 +1,26 @@
 <picture>
   <source media="(prefers-reduced-motion: no-preference)" srcset="assets/visuals/aurora.svg">
-  <img src="assets/visuals/aurora-still.svg" width="100%" alt="Wang Jingwen · kong-LrYz，夜空下的极光与湖面倒影">
+  <img src="assets/visuals/aurora-still.svg" width="100%" alt="Wang Jingwen · kong-LrYz，夜空中的极光和湖面倒影">
 </picture>
 
-[全部仓库](https://github.com/kong-LrYz?tab=repositories) · [星标](https://github.com/kong-LrYz?tab=stars)
-
-## 公开项目
-
-<p align="center">
-  <a href="https://github.com/kong-LrYz/boss-agent-assistant"><picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/boss-card-dark.svg">
-      <img src="assets/visuals/boss-card-light.svg" width="380" alt="BOSS 投递助手">
-  </picture></a>
-  <a href="https://github.com/kong-LrYz/tree-sitter-isabelle"><picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/tree-sitter-card-dark.svg">
-      <img src="assets/visuals/tree-sitter-card-light.svg" width="380" alt="tree-sitter-isabelle">
-  </picture></a>
-</p>
-
-## 工具与语言
+<p align="center"><a href="https://github.com/kong-LrYz?tab=repositories">全部仓库</a> · <a href="https://github.com/kong-LrYz?tab=stars">星标</a></p>
 
 <p align="center">
   <img src="assets/visuals/tool-marquee.svg" width="448" alt="C、C++、JavaScript、Node.js、汇编、Git 和 GitHub Actions">
 </p>
 
-## 贡献街机
+<img src="assets/visuals/pulse-divider.svg" width="100%" alt="">
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/snake-dark.svg">
   <img src="assets/visuals/snake-light.svg" width="100%" alt="贡献蛇沿着过去一年的 GitHub 贡献格移动">
 </picture>
 
-<details>
-<summary>最近更新</summary>
+<p align="center">
+  <picture>
+    <source media="(prefers-reduced-motion: no-preference)" srcset="assets/visuals/spinning-torus.webp">
+    <img src="assets/visuals/spinning-torus-still.webp" width="216" alt="由 ASCII 字符组成的旋转三维圆环">
+  </picture>
+</p>
 
-<!-- activity:start -->
-
-- [`boss-agent-assistant`](https://github.com/kong-LrYz/boss-agent-assistant) · 2026-10-11
-- [`tree-sitter-isabelle`](https://github.com/kong-LrYz/tree-sitter-isabelle) · 2026-04-11
-- [`miniOS`](https://github.com/kong-LrYz/miniOS) · 2026-01-28
-
-<!-- activity:end -->
-
-</details>
-
-<sub>动效与卡片来自 <a href="https://github.com/jihoo12/github-readme-svg">GitHub Readme SVG</a>、<a href="https://github.com/gian-gg/icon-marquee">Icon Marquee</a>、<a href="https://github.com/stats-organization/github-readme-stats">GitHub Readme Stats</a> 和 <a href="https://github.com/Platane/snk">Platane/snk</a>。</sub>
+<sub>动效来自 <a href="https://github.com/jihoo12/github-readme-svg">GitHub Readme SVG</a>、<a href="https://github.com/gian-gg/icon-marquee">Icon Marquee</a>、<a href="https://github.com/saroo98/profile-signal-kit">Profile Signal Kit</a>、<a href="https://github.com/Platane/snk">Platane/snk</a> 和 <a href="https://github.com/huytieu/ascii-og">ascii-og</a>。</sub>
