@@ -7,8 +7,8 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/contribution-streak-dark-060e3ef528528bda.svg">
-    <img src="assets/visuals/contribution-streak-light-e0d701f9d3e8f137.svg" width="720" alt="GitHub 总贡献数、当前连续贡献和最长连续贡献">
+    <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/contribution-streak-dark-c4b4ba312f9ff64c.svg">
+    <img src="assets/visuals/contribution-streak-light-c1d3056123928053.svg" width="720" alt="GitHub 总贡献数、当前连续贡献和最长连续贡献">
   </picture>
 </p>
 
