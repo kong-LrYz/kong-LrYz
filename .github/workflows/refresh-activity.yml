@@ -1,0 +1,42 @@
+name: Refresh profile activity
+
+on:
+  schedule:
+    - cron: "23 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-activity
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Read public pushes and update the profile
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROFILE_OWNER: ${{ github.repository_owner }}
+        shell: bash
+        run: |
+          gh api --paginate --slurp "users/$PROFILE_OWNER/repos?type=owner&per_page=100" \
+            | python3 .github/refresh_activity.py "$PROFILE_OWNER"
+
+      - name: Publish when the activity changes
+        shell: bash
+        run: |
+          if git diff --quiet -- README.md; then
+            echo "Profile activity is already up to date."
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -m "Refresh public repository activity" -- README.md
+          git push origin HEAD
