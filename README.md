@@ -20,10 +20,6 @@
 </p>
 
 <p align="center">
-  <img src="assets/visuals/animated-tool-row.svg" width="560" alt="滚动技术图标：C、C++、Python、JavaScript、Node.js、Rust、Go、汇编、CMake、Git 和 GitHub Actions">
-</p>
-
-<p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/skill-grid-dark.svg">
     <img src="assets/visuals/skill-grid-light.svg" width="510" alt="双排技术图标：C、C++、Python、JavaScript、Node.js、HTML、CSS、Rust、Go、CMake、Git、GitHub、GitHub Actions、Bash、Linux 和 Markdown">
@@ -37,11 +33,4 @@
   <img src="assets/visuals/snake-light.svg" width="100%" alt="贡献蛇沿着过去一年的 GitHub 贡献格移动">
 </picture>
 
-<p align="center">
-  <picture>
-    <source media="(prefers-reduced-motion: no-preference)" srcset="assets/visuals/spinning-torus.webp">
-    <img src="assets/visuals/spinning-torus-still.webp" width="216" alt="由 ASCII 字符组成的旋转三维圆环">
-  </picture>
-</p>
-
-<sub>组件来自 <a href="https://github.com/jihoo12/github-readme-svg">GitHub Readme SVG</a>、<a href="https://github.com/DenverCoder1/github-readme-streak-stats">Streak Stats</a>、<a href="https://github.com/stats-organization/github-readme-stats">GitHub Readme Stats</a>、<a href="https://github.com/gian-gg/icon-marquee">Icon Marquee</a>、<a href="https://github.com/tandpfun/skill-icons">Skill Icons</a>、<a href="https://github.com/saroo98/profile-signal-kit">Profile Signal Kit</a>、<a href="https://github.com/Platane/snk">Platane/snk</a> 和 <a href="https://github.com/huytieu/ascii-og">ascii-og</a>。</sub>
+<sub>组件来自 <a href="https://github.com/jihoo12/github-readme-svg">GitHub Readme SVG</a>、<a href="https://github.com/DenverCoder1/github-readme-streak-stats">Streak Stats</a>、<a href="https://github.com/stats-organization/github-readme-stats">GitHub Readme Stats</a>、<a href="https://github.com/tandpfun/skill-icons">Skill Icons</a>、<a href="https://github.com/saroo98/profile-signal-kit">Profile Signal Kit</a> 和 <a href="https://github.com/Platane/snk">Platane/snk</a>。</sub>
