@@ -9,12 +9,12 @@
 
 <p align="center">
   <a href="https://github.com/kong-LrYz/boss-agent-assistant"><picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/boss-dark.svg">
-      <img src="assets/visuals/boss-light.svg" width="380" alt="BOSS 投递助手">
+      <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/boss-card-dark.svg">
+      <img src="assets/visuals/boss-card-light.svg" width="380" alt="BOSS 投递助手">
   </picture></a>
   <a href="https://github.com/kong-LrYz/tree-sitter-isabelle"><picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/parser-dark.svg">
-      <img src="assets/visuals/parser-light.svg" width="380" alt="tree-sitter-isabelle">
+      <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/tree-sitter-card-dark.svg">
+      <img src="assets/visuals/tree-sitter-card-light.svg" width="380" alt="tree-sitter-isabelle">
   </picture></a>
 </p>
 

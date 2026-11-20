@@ -37,7 +37,7 @@ jobs:
         with:
           card: pin
           options: repo=boss-agent-assistant&description_lines_count=2&${{ env.LIGHT_CARD }}
-          path: rendered/boss-light.svg
+          path: rendered/boss-card-light.svg
           core_version: "2.3.1"
           fail_on_error: "true"
 
@@ -46,7 +46,7 @@ jobs:
         with:
           card: pin
           options: repo=boss-agent-assistant&description_lines_count=2&${{ env.DARK_CARD }}
-          path: rendered/boss-dark.svg
+          path: rendered/boss-card-dark.svg
           core_version: "2.3.1"
           fail_on_error: "true"
 
@@ -55,7 +55,7 @@ jobs:
         with:
           card: pin
           options: repo=tree-sitter-isabelle&description_lines_count=2&${{ env.LIGHT_CARD }}
-          path: rendered/parser-light.svg
+          path: rendered/tree-sitter-card-light.svg
           core_version: "2.3.1"
           fail_on_error: "true"
 
@@ -64,7 +64,7 @@ jobs:
         with:
           card: pin
           options: repo=tree-sitter-isabelle&description_lines_count=2&${{ env.DARK_CARD }}
-          path: rendered/parser-dark.svg
+          path: rendered/tree-sitter-card-dark.svg
           core_version: "2.3.1"
           fail_on_error: "true"
 
@@ -101,7 +101,7 @@ jobs:
           gh api --paginate --slurp "users/$PROFILE_OWNER/repos?type=owner&per_page=100" \
             | python3 .github/refresh_activity.py "$PROFILE_OWNER"
 
-          for widget in snake boss parser; do
+          for widget in snake boss-card tree-sitter-card; do
             for mode in light dark; do
               asset="$widget-$mode.svg"
               cp "$RUNNER_TEMP/profile-visuals/$asset" "assets/visuals/$asset"
