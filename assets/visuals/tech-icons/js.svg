@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="80" height="80"><title>JavaScript</title><style>
+          .still { display: none; }
+          @media (prefers-reduced-motion: reduce) {
+            .still { display: inline; }
+            .live { display: none; }
+          }
+        </style><svg width="256" height="256" viewBox="0 0 256 256" fill="none" class="still">
+<rect width="256" height="256" rx="60" fill="#F0DB4F" />
+<path d="M67.3117 213.932L86.9027 202.076C90.6821 208.777 94.1202 214.447 102.367 214.447C110.272 214.447 115.256 211.355 115.256 199.327V117.529H139.314V199.667C139.314 224.584 124.708 235.926 103.398 235.926C84.1533 235.926 72.9819 225.959 67.3113 213.93" fill="#323330" />
+<path d="M152.381 211.354L171.969 200.013C177.126 208.434 183.828 214.62 195.684 214.62C205.653 214.62 212.009 209.636 212.009 202.762C212.009 194.514 205.479 191.592 194.481 186.782L188.468 184.203C171.111 176.815 159.597 167.535 159.597 147.945C159.597 129.901 173.345 116.153 194.826 116.153C210.12 116.153 221.118 121.481 229.022 135.4L210.291 147.429C206.166 140.04 201.7 137.119 194.826 137.119C187.78 137.119 183.312 141.587 183.312 147.429C183.312 154.646 187.78 157.568 198.09 162.037L204.104 164.614C224.553 173.379 236.067 182.313 236.067 202.418C236.067 224.072 219.055 235.928 196.2 235.928C173.861 235.928 159.426 225.274 152.381 211.354" fill="#323330" />
+</svg>
+
+        <g class="live"><rect width="256" height="256" rx="55" fill="#19212e" /><svg viewBox="0 0 100 100" id="js-icon" x="24" y="24" width="208" height="208">
+      <defs>
+        <style>
+          @keyframes stopper-ani {
+            50% {
+              transform: rotate(0);
+            }
+            60% {
+              transform: rotate(-90deg);
+            }
+            90% {
+              transform: rotate(-90deg);
+            }
+            100% {
+              transform: rotate(0);
+            }
+          }
+          @keyframes pool-ani {
+            50% {
+              transform: scale(0);
+            }
+            100% {
+              transform: scale(1);
+            }
+          }
+          @keyframes wave-ani {
+            0% {
+              x: 0px;
+            }
+            100% {
+              x: -100px;
+            }
+          }
+
+          @keyframes fill-ani {
+            50% {
+              y: 18px;
+            }
+            100% {
+              y: 80px;
+            }
+          }
+
+
+          .js-cup {
+            fill: transparent;
+            stroke: #f7df1f;
+          }
+          .js-text {
+            font-size: 30px;
+            font-weight: bold;
+          }
+          .js-stopper {
+            transform-origin: 75px 65px;
+            animation: stopper-ani 5s infinite;
+          }
+          .js-pool {
+            transform: scale(0);
+            transform-origin: 75px 75px;
+            animation: pool-ani 5s infinite;
+          }
+          .wave-box {
+            animation: wave-ani 5s infinite linear, fill-ani 5s infinite alternate;
+          }
+        </style>
+        <pattern id="wave" width="0.1" height="1">
+          <path fill=" #f7df1f" d="M 0 10 C 3 12, 5 15, 14 10 C 17 9, 20 5, 30 10 L 30 60 L 0 60 z" />
+        </pattern>
+        <mask id="wave-mask">
+          <rect x="25" y="25" width="50" height="50" fill="white" />
+        </mask>
+      </defs>
+      <ellipse class="js-pool" cx="75" cy="75" rx="25" ry="10" fill="#f7df1f" />
+      <path class="js-cup" d="M 25 25 L 25 75 L 75 75 L 75 25 " />
+      <g class="js-stopper">
+        <rect x="75" y="65" width="1" height="5" />
+        <rect x="75" y="70" width="3" height="5" />
+      </g>
+      <rect class="wave-box" mask="url(#wave-mask)" fill="url(#wave)" x="0" y="80" width="300" height="100" />
+      <text class="js-text" x="45" y="70" fill="white">JS</text>
+    </svg></g></svg>

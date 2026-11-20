@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="80" height="80"><title>Markdown</title><style>
+          /* The lateral tilt uses the Animate.css swing keyframes. */
+          @keyframes swing {
+            0%, 100% { transform: rotate(0); }
+            20% { transform: rotate(15deg); }
+            40% { transform: rotate(-10deg); }
+            60% { transform: rotate(5deg); }
+            80% { transform: rotate(-5deg); }
+          }
+          @keyframes drift {
+            0%, 100% { transform: translate(0, 0); }
+            45% { transform: translate(7px, -13px); }
+            70% { transform: translate(-5px, -4px); }
+          }
+          @keyframes tilt {
+            0%, 100% { transform: skewY(0deg); }
+            40% { transform: skewY(-11deg); }
+            70% { transform: skewY(7deg); }
+          }
+          .glyph { transform-box: fill-box; transform-origin: center; }
+          @media (prefers-reduced-motion: reduce) { .glyph { animation: none !important; } }
+        </style><svg width="256" height="256" fill="none" viewBox="0 0 256 256"><rect width="256" height="256" fill="#242938" rx="60" /><g class="glyph" style="animation:tilt 4.5s -5.75s ease-in-out infinite"><path stroke="#fff" stroke-width="10" d="M217 69H39C33.4772 69 29 73.4772 29 79V177C29 182.523 33.4772 187 39 187H217C222.523 187 227 182.523 227 177V79C227 73.4772 222.523 69 217 69Z" /><path fill="#fff" d="M54 162V94H74L94 119L114 94H134V162H114V123L94 148L74 123V162H54ZM179 162L149 129H169V94H189V129H209L179 162Z" /></g></svg>
+        </svg>

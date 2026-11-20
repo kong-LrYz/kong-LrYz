@@ -2,13 +2,17 @@ name: Refresh GitHub cards and contribution snake
 
 on:
   schedule:
-    - cron: "3-58/5 * * * *"
+    - cron: "3,8,13,18,23,28,33,38,43,48,53,58 * * * *"
   workflow_dispatch:
+  repository_dispatch:
+    types: [refresh-account-totals]
   push:
     branches: [main]
     paths:
       - ".github/workflows/refresh-activity.yml"
       - ".github/publish_visuals.py"
+      - ".github/stats-renderer/**"
+      - ".github/account-totals.json"
 
 concurrency:
   group: profile-activity
@@ -16,6 +20,7 @@ concurrency:
 
 jobs:
   generate:
+    if: github.event_name != 'repository_dispatch' || github.actor == github.repository_owner
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -36,6 +41,7 @@ jobs:
         run: |
           query='query($owner: String!) {
             user(login: $owner) {
+              login
               name
               followers { totalCount }
               pullRequests { totalCount }
@@ -44,7 +50,7 @@ jobs:
                 totalCount
                 nodes { stargazerCount }
               }
-              repositoriesContributedTo { totalCount }
+              repositoriesContributedTo(includeUserRepositories: false) { totalCount }
               contributionsCollection {
                 restrictedContributionsCount
                 totalPullRequestReviewContributions
@@ -53,11 +59,27 @@ jobs:
             }
           }'
           data=$(gh api graphql -f query="$query" -f owner="$PROFILE_OWNER" --jq '.data.user')
-          commits=$(gh api --method GET search/commits \
-            -f q="author:$PROFILE_OWNER is:public" -F per_page=1 \
-            --jq 'if .incomplete_results then error("Incomplete commit count") else .total_count end')
           mkdir -p rendered
-          printf '%s\n' "$(TZ=Asia/Hong_Kong date +%F)" "$data" "$commits" \
+          printf '%s\n' "$data" > "$RUNNER_TEMP/profile-public-stats.json"
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          import json
+          import os
+
+          if os.environ["GITHUB_EVENT_NAME"] == "repository_dispatch":
+              event = json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text())
+              totals = event["client_payload"]
+          else:
+              totals = json.loads(Path(".github/account-totals.json").read_text())
+
+          for key in ("commits", "prs"):
+              if type(totals.get(key)) is not int or not 0 <= totals[key] < 2**53:
+                  raise ValueError(f"Invalid {key} count")
+          Path("rendered/account-totals.json").write_text(
+              json.dumps({key: totals[key] for key in ("commits", "prs")}, indent=2) + "\n"
+          )
+          PYTHON
+          printf '%s\n' "$(TZ=Asia/Hong_Kong date +%F)" "$data" "$(cat rendered/account-totals.json)" \
             | sha256sum | cut -d' ' -f1 > rendered/profile-fingerprint.txt
 
           if [[ "$GITHUB_EVENT_NAME" == schedule ]] && cmp -s .github/profile-fingerprint.txt rendered/profile-fingerprint.txt; then
@@ -95,25 +117,18 @@ jobs:
           options: user=${{ github.repository_owner }}&theme=github-dark&timezone=Asia%2FHong_Kong&hide_border=true&background=00000000&ring=2fcb4e&fire=1f6feb&dates=39d353&stroke=238636
           path: rendered/contribution-streak-dark.svg
 
-      - name: Generate GitHub stats in light mode
+      - name: Set up Node for the stats renderer
         if: steps.probe.outputs.changed == 'true'
-        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          card: stats
-          options: show_icons=true&include_all_commits=true&hide_border=true&theme=default&bg_color=00000000
-          path: rendered/github-stats-light.svg
-          core_version: "2.3.1"
-          fail_on_error: "true"
+          node-version: 24
 
-      - name: Generate GitHub stats in dark mode
+      - name: Render GitHub stats with the account totals
         if: steps.probe.outputs.changed == 'true'
-        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
-        with:
-          card: stats
-          options: show_icons=true&include_all_commits=true&hide_border=true&theme=github_dark&bg_color=00000000
-          path: rendered/github-stats-dark.svg
-          core_version: "2.3.1"
-          fail_on_error: "true"
+        shell: bash
+        run: |
+          npm ci --prefix .github/stats-renderer --ignore-scripts --no-audit --no-fund
+          node .github/stats-renderer/render.mjs "$RUNNER_TEMP/profile-public-stats.json" rendered/account-totals.json rendered
 
       - name: Check both cards contain the expected data sections
         if: steps.probe.outputs.changed == 'true'
@@ -122,7 +137,7 @@ jobs:
           for mode in light dark; do
             grep -q 'Longest Streak' "rendered/contribution-streak-$mode.svg"
             grep -q 'Total Commits' "rendered/github-stats-$mode.svg"
-            sed -i 's/Total Commits/Public Commits/g' "rendered/github-stats-$mode.svg"
+            grep -q 'Total PRs' "rendered/github-stats-$mode.svg"
           done
 
       - name: Store the generated SVGs
@@ -133,6 +148,7 @@ jobs:
           path: |
             rendered/*.svg
             rendered/profile-fingerprint.txt
+            rendered/account-totals.json
           if-no-files-found: error
           retention-days: 1
 
@@ -157,7 +173,7 @@ jobs:
         shell: bash
         run: |
           python3 .github/publish_visuals.py "$RUNNER_TEMP/profile-visuals"
-          git add -A -- README.md assets/visuals .github/profile-fingerprint.txt
+          git add -A -- README.md assets/visuals .github/profile-fingerprint.txt .github/account-totals.json
 
           if git diff --cached --quiet; then
             echo "The profile images are already up to date."

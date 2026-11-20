@@ -32,7 +32,8 @@ def publish(source: Path, root: Path) -> None:
             if old != name:
                 obsolete.add(assets / old)
 
-    updates[root / ".github/profile-fingerprint.txt"] = (source / "profile-fingerprint.txt").read_bytes()
+    for metadata in ("profile-fingerprint.txt", "account-totals.json"):
+        updates[root / ".github" / metadata] = (source / metadata).read_bytes()
     for path, contents in updates.items():
         path.write_bytes(contents)
     readme_path.write_text(readme, encoding="utf-8")

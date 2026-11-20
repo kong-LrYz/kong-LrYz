@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="80" height="80"><title>WebAssembly</title><style>
+          /* The lateral tilt uses the Animate.css swing keyframes. */
+          @keyframes swing {
+            0%, 100% { transform: rotate(0); }
+            20% { transform: rotate(15deg); }
+            40% { transform: rotate(-10deg); }
+            60% { transform: rotate(5deg); }
+            80% { transform: rotate(-5deg); }
+          }
+          @keyframes drift {
+            0%, 100% { transform: translate(0, 0); }
+            45% { transform: translate(7px, -13px); }
+            70% { transform: translate(-5px, -4px); }
+          }
+          @keyframes tilt {
+            0%, 100% { transform: skewY(0deg); }
+            40% { transform: skewY(-11deg); }
+            70% { transform: skewY(7deg); }
+          }
+          .glyph { transform-box: fill-box; transform-origin: center; }
+          @media (prefers-reduced-motion: reduce) { .glyph { animation: none !important; } }
+        </style><svg width="256" height="256" fill="none" viewBox="0 0 256 256"><g clip-path="url(#clip0_7_144)"><path fill="#654FF0" d="M157.281 0C157.281 0.451765 157.281 0.903529 157.281 1.38039C157.281 17.5937 144.138 30.7325 127.929 30.7325C111.716 30.7325 98.5767 17.5895 98.5767 1.38039C98.5767 0.903529 98.5767 0.451765 98.5767 0L0 0V256H256V0H157.281Z" /><g class="glyph" style="animation:swing 4.5s -1.75s ease-in-out infinite"><path fill="#fff" d="M59.4656 137.96H76.4318L88.0146 199.647H88.2237L102.145 137.96H118.015L130.589 200.404H130.836L144.038 137.96H160.678L139.056 228.601H122.219L109.749 166.914H109.423L96.0752 228.601H78.9249L59.4656 137.96ZM179.806 137.96H206.553L233.115 228.601H215.613L209.836 208.431H179.367L174.908 228.601H157.862L179.806 137.96ZM189.988 160.301L182.588 193.556H205.62L197.124 160.301H189.988Z" /></g></g><defs><clipPath id="clip0_7_144"><rect width="256" height="256" fill="#fff" rx="60" /></clipPath></defs></svg>
+        </svg>
