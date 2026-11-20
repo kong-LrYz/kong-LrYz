@@ -36,7 +36,7 @@ jobs:
         uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
         with:
           card: pin
-          options: repo=boss-agent-assistant&${{ env.LIGHT_CARD }}
+          options: repo=boss-agent-assistant&description_lines_count=2&${{ env.LIGHT_CARD }}
           path: rendered/boss-light.svg
           core_version: "2.3.1"
           fail_on_error: "true"
@@ -45,7 +45,7 @@ jobs:
         uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
         with:
           card: pin
-          options: repo=boss-agent-assistant&${{ env.DARK_CARD }}
+          options: repo=boss-agent-assistant&description_lines_count=2&${{ env.DARK_CARD }}
           path: rendered/boss-dark.svg
           core_version: "2.3.1"
           fail_on_error: "true"
@@ -54,7 +54,7 @@ jobs:
         uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
         with:
           card: pin
-          options: repo=tree-sitter-isabelle&${{ env.LIGHT_CARD }}
+          options: repo=tree-sitter-isabelle&description_lines_count=2&${{ env.LIGHT_CARD }}
           path: rendered/parser-light.svg
           core_version: "2.3.1"
           fail_on_error: "true"
@@ -63,7 +63,7 @@ jobs:
         uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
         with:
           card: pin
-          options: repo=tree-sitter-isabelle&${{ env.DARK_CARD }}
+          options: repo=tree-sitter-isabelle&description_lines_count=2&${{ env.DARK_CARD }}
           path: rendered/parser-dark.svg
           core_version: "2.3.1"
           fail_on_error: "true"

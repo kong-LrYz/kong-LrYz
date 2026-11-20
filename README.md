@@ -8,18 +8,14 @@
 ## 公开项目
 
 <p align="center">
-  <a href="https://github.com/kong-LrYz/boss-agent-assistant">
-    <picture>
+  <a href="https://github.com/kong-LrYz/boss-agent-assistant"><picture>
       <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/boss-dark.svg">
       <img src="assets/visuals/boss-light.svg" width="380" alt="BOSS 投递助手">
-    </picture>
-  </a>
-  <a href="https://github.com/kong-LrYz/tree-sitter-isabelle">
-    <picture>
+  </picture></a>
+  <a href="https://github.com/kong-LrYz/tree-sitter-isabelle"><picture>
       <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/parser-dark.svg">
       <img src="assets/visuals/parser-light.svg" width="380" alt="tree-sitter-isabelle">
-    </picture>
-  </a>
+  </picture></a>
 </p>
 
 ## 工具与语言
