@@ -15,6 +15,9 @@ jobs:
     timeout-minutes: 10
     permissions:
       contents: read
+    env:
+      LIGHT_CARD: bg_color=f5fafb&title_color=15596b&text_color=365062&border_color=cbdbdf&icon_color=157f78
+      DARK_CARD: bg_color=101a22&title_color=85ddeb&text_color=b3c2d2&border_color=314554&icon_color=59d5bf
     steps:
       - name: Generate the contribution snake
         uses: Platane/snk/svg-only@d8f6715049803e982ee5ff501b6b9b7d5deeb09b # v3.5.0
@@ -24,41 +27,46 @@ jobs:
             rendered/snake-light.svg?palette=github-light&color_snake=%23017782
             rendered/snake-dark.svg?palette=github-dark&color_snake=%2365e5d1
 
-      - name: Generate the contribution effects
-        uses: Sur1ive/contribution-fx@0c7303e3949901701337755cacef30ba2674130b # v1
-        with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            rendered/circuit-light.svg?theme=circuit&palette=ocean&speed=1.2
-            rendered/circuit-dark.svg?theme=circuit&palette=ocean&mode=dark&speed=1.2
-            rendered/constellation-light.svg?theme=constellation&palette=purple&speed=1.15
-            rendered/constellation-dark.svg?theme=constellation&palette=purple&mode=dark&speed=1.15
-            rendered/fireworks-light.svg?theme=fireworks&palette=sunset&speed=1.05
-            rendered/fireworks-dark.svg?theme=fireworks&palette=sunset&mode=dark&speed=1.05
-            rendered/ripple-light.svg?theme=ripple&palette=ocean&speed=1.1
-            rendered/ripple-dark.svg?theme=ripple&palette=ocean&mode=dark&speed=1.1
-
-      - name: Fetch animated summary cards
-        env:
-          PROFILE_OWNER: ${{ github.repository_owner }}
+      - name: Respect reduced motion in the contribution snake
         shell: bash
         run: |
-          for mode in light dark; do
-            theme=default
-            colors="title_color=15596b&text_color=365062&chart_color=157f78&border_color=cbdbdf&bg_color=f5fafb"
-            if [[ "$mode" == dark ]]; then
-              theme=github_dark
-              colors="title_color=85ddeb&text_color=b3c2d2&chart_color=59d5bf&border_color=314554&bg_color=101a22"
-            fi
-            api=https://github-profile-summary-cards.vercel.app/api/cards
-            common="username=$PROFILE_OWNER&theme=$theme&hide_logo=true&$colors"
-            curl --fail --silent --show-error --location --retry 2 --max-time 25 \
-              "$api/repos-per-language?$common&animation=load&duration=2.8" -o "rendered/repo-languages-$mode.svg"
-            curl --fail --silent --show-error --location --retry 2 --max-time 25 \
-              "$api/productive-time?$common&utcOffset=8&animation=draw&duration=2.8" -o "rendered/commit-clock-$mode.svg"
-            grep -q '@keyframes' "rendered/repo-languages-$mode.svg"
-            grep -q '@keyframes' "rendered/commit-clock-$mode.svg"
-          done
+          sed -i 's|</style>|@media (prefers-reduced-motion:reduce){*{animation:none!important}}</style>|' rendered/snake-{light,dark}.svg
+
+      - name: Generate the BOSS assistant card in light mode
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
+        with:
+          card: pin
+          options: repo=boss-agent-assistant&${{ env.LIGHT_CARD }}
+          path: rendered/boss-light.svg
+          core_version: "2.3.1"
+          fail_on_error: "true"
+
+      - name: Generate the BOSS assistant card in dark mode
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
+        with:
+          card: pin
+          options: repo=boss-agent-assistant&${{ env.DARK_CARD }}
+          path: rendered/boss-dark.svg
+          core_version: "2.3.1"
+          fail_on_error: "true"
+
+      - name: Generate the Tree-sitter card in light mode
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
+        with:
+          card: pin
+          options: repo=tree-sitter-isabelle&${{ env.LIGHT_CARD }}
+          path: rendered/parser-light.svg
+          core_version: "2.3.1"
+          fail_on_error: "true"
+
+      - name: Generate the Tree-sitter card in dark mode
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
+        with:
+          card: pin
+          options: repo=tree-sitter-isabelle&${{ env.DARK_CARD }}
+          path: rendered/parser-dark.svg
+          core_version: "2.3.1"
+          fail_on_error: "true"
 
       - name: Store the generated SVGs
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
@@ -93,8 +101,7 @@ jobs:
           gh api --paginate --slurp "users/$PROFILE_OWNER/repos?type=owner&per_page=100" \
             | python3 .github/refresh_activity.py "$PROFILE_OWNER"
 
-          mkdir -p assets/visuals
-          for widget in snake circuit constellation fireworks ripple repo-languages commit-clock; do
+          for widget in snake boss parser; do
             for mode in light dark; do
               asset="$widget-$mode.svg"
               cp "$RUNNER_TEMP/profile-visuals/$asset" "assets/visuals/$asset"
