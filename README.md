@@ -14,8 +14,8 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/github-stats-dark-5436b4f81c2d6050.svg">
-    <img src="assets/visuals/github-stats-light-c5291ab30f6df319.svg" width="720" alt="GitHub 统计与评级：获得的星标、公开提交、拉取请求、议题和参与的仓库">
+    <source media="(prefers-color-scheme: dark)" srcset="assets/visuals/github-stats-dark-bb3e3eaad0396f92.svg">
+    <img src="assets/visuals/github-stats-light-e8d7deccdb3bf106.svg" width="720" alt="GitHub 统计与评级：获得的星标、公开提交、拉取请求、议题和参与的仓库">
   </picture>
 </p>
 
